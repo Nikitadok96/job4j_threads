@@ -1,6 +1,6 @@
 # job4j_threads
 
-Изменние в вете master --amend
+Изменние в вете master --Amend push
 
 ## Обзор блока Multithreading
 ###
