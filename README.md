@@ -1,6 +1,5 @@
 # job4j_threads
 
-add title
 Изменние в вете master --amend
 
 ## Обзор блока Multithreading
