@@ -34,7 +34,7 @@ public class Wget implements Runnable {
             int size = 0;
             while ((bytesRead = in.read(dataBuffer, 0, dataBuffer.length)) != -1) {
                 out.write(dataBuffer, 0, bytesRead);
-                size += dataBuffer.length;
+                size += bytesRead;
                 if (size >= speed) {
                     var nanoTime = System.nanoTime() - downloadAt;
                     System.out.println("Read: " + size + " byte : " + nanoTime + " nanoSec");
