@@ -1,7 +1,4 @@
 package linked;
-
-import concurrent.Wget;
-
 public final class Node<T> {
     private final Node<T> next;
     private final T value;
