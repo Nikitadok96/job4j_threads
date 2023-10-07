@@ -9,15 +9,13 @@ public class SaveFile {
         this.file = file;
     }
 
-    public void saveContent(String content) {
-        synchronized (file) {
-            try (OutputStream o = new BufferedOutputStream(new FileOutputStream(file))) {
-                for (int i = 0; i < content.length(); i += 1) {
-                    o.write(content.charAt(i));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+    public synchronized void saveContent(String content) {
+        try (OutputStream o = new BufferedOutputStream(new FileOutputStream(file))) {
+            for (int i = 0; i < content.length(); i += 1) {
+                o.write(content.charAt(i));
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
