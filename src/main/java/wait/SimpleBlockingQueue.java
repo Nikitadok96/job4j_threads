@@ -16,9 +16,13 @@ public class SimpleBlockingQueue<T> {
         this.total = total;
     }
 
-    public synchronized void offer(T value) throws InterruptedException {
+    public synchronized void offer(T value) {
         while (queue.size() >= total) {
-            this.wait();
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
         queue.offer(value);
         this.notifyAll();
@@ -65,11 +69,8 @@ public class SimpleBlockingQueue<T> {
                 Thread.currentThread().interrupt();
             }
             System.out.println("Producer give second value");
-            try {
-                simpleBlockingQueue.offer(2);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            simpleBlockingQueue.offer(2);
+
         });
         firstConsumer.start();
         secondConsumer.start();
