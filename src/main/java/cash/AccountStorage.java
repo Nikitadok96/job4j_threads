@@ -4,7 +4,6 @@ import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @ThreadSafe
@@ -13,23 +12,11 @@ public class AccountStorage {
     private final HashMap<Integer, Account> accounts = new HashMap<>();
 
     public synchronized boolean add(Account account) {
-        boolean rsl = false;
-        if (!accounts.containsKey(account.id())) {
-            accounts.put(account.id(), account);
-            rsl = true;
-        }
-        return rsl;
+        return accounts.putIfAbsent(account.id(), account) == null;
     }
 
     public synchronized boolean update(Account account) {
-        boolean rsl = false;
-        Optional<Account> findAccount = getById(account.id());
-        if (findAccount.isPresent()) {
-            delete(findAccount.get().id());
-            accounts.put(account.id(), account);
-            rsl = true;
-        }
-        return rsl;
+        return accounts.replace(account.id(), account) != null;
     }
 
     public synchronized void delete(int id) {
@@ -37,14 +24,7 @@ public class AccountStorage {
     }
 
     public synchronized Optional<Account> getById(int id) {
-        Optional<Account> account = Optional.empty();
-        for (Map.Entry<Integer, Account> entry : accounts.entrySet()) {
-            if (entry.getKey() == id) {
-                account = Optional.of(entry.getValue());
-                break;
-            }
-        }
-        return account;
+        return Optional.ofNullable(accounts.get(id));
     }
 
     public boolean transfer(int fromId, int toId, int amount) {
