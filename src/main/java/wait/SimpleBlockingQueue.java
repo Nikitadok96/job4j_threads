@@ -33,6 +33,10 @@ public class SimpleBlockingQueue<T> {
         return value;
     }
 
+    public synchronized boolean isEmpty() {
+        return queue.isEmpty();
+    }
+
     public static void main(String[] args) throws InterruptedException {
         SimpleBlockingQueue<Integer> simpleBlockingQueue = new SimpleBlockingQueue<>(2);
         Thread firstConsumer = new Thread(() -> {
