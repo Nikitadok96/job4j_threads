@@ -9,7 +9,13 @@ class SimpleBlockingQueueTest {
     @Test
     public void whenAdd1AndGet() throws InterruptedException {
         SimpleBlockingQueue<Integer> simpleBlockingQueue = new SimpleBlockingQueue<>(1);
-        Thread producer = new Thread(() -> simpleBlockingQueue.offer(1));
+        Thread producer = new Thread(() -> {
+            try {
+                simpleBlockingQueue.offer(1);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
         producer.start();
         producer.join();
         Thread consumer = new Thread(() -> {
@@ -48,7 +54,11 @@ class SimpleBlockingQueueTest {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            simpleBlockingQueue.offer(2);
+            try {
+                simpleBlockingQueue.offer(2);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         });
         firstConsumer.start();
         secondConsumer.start();
