@@ -25,10 +25,10 @@ public class SimpleBlockingQueue<T> {
     }
 
     public synchronized T poll() throws InterruptedException {
-        T value;
-        while ((value = queue.poll()) == null) {
+        while (queue.isEmpty()) {
             this.wait();
         }
+        T value = queue.poll();
         this.notifyAll();
         return value;
     }
