@@ -11,7 +11,7 @@ class CacheTest {
         Cache cache = new Cache();
         Base base = new Base(1, 0);
         assertThat(cache.add(base)).isTrue();
-        Base secondBase = new Base(1,0);
+        Base secondBase = new Base(1, 0);
         assertThat(cache.add(secondBase)).isFalse();
     }
 
@@ -21,7 +21,7 @@ class CacheTest {
         Base base = new Base(1, 0);
         assertThat(cache.add(base)).isTrue();
         cache.delete(base);
-        Base secondBase = new Base(1,0);
+        Base secondBase = new Base(1, 0);
         assertThat(cache.add(secondBase)).isTrue();
     }
 
@@ -30,7 +30,7 @@ class CacheTest {
         Cache cache = new Cache();
         Base base = new Base(1, 0);
         cache.add(base);
-        Base secondBase = new Base(1,1);
+        Base secondBase = new Base(1, 1);
         cache.delete(secondBase);
         assertThat(cache.add(new Base(1, 0))).isFalse();
         assertThat(cache.getBase(1).getVersion()).isEqualTo(0);
@@ -41,7 +41,7 @@ class CacheTest {
         Cache cache = new Cache();
         Base base = new Base(1, 0);
         cache.add(base);
-        Base secondBase = new Base(1,0);
+        Base secondBase = new Base(1, 0);
         secondBase.setName("Second Base");
         assertThat(cache.update(secondBase)).isTrue();
         assertThat(cache.getBase(1).getVersion()).isEqualTo(1);
@@ -53,7 +53,7 @@ class CacheTest {
         Cache cache = new Cache();
         Base base = new Base(1, 0);
         cache.add(base);
-        Base secondBase = new Base(1,1);
+        Base secondBase = new Base(1, 1);
         assertThatThrownBy(() -> cache.update(secondBase)).isInstanceOf(OptimisticException.class);
     }
 
