@@ -18,14 +18,12 @@ public class Cache {
             }
             Base newBase = new Base(model.getId(), model.getVersion() + 1);
             newBase.setName(model.getName());
-            memory.replace(model.getId(), newBase);
             return newBase;
         }) != null;
     }
 
     public void delete(Base model) {
-        memory.entrySet().removeIf(p -> memory.get(model.getId()) != null
-                && memory.get(model.getId()).getVersion() == model.getVersion());
+        memory.remove(model.getId());
     }
 
     public Base getBase(int key) {

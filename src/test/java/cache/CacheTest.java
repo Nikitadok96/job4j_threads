@@ -26,17 +26,6 @@ class CacheTest {
     }
 
     @Test
-    public void whenDeleteDifferentVersion() {
-        Cache cache = new Cache();
-        Base base = new Base(1, 0);
-        cache.add(base);
-        Base secondBase = new Base(1, 1);
-        cache.delete(secondBase);
-        assertThat(cache.add(new Base(1, 0))).isFalse();
-        assertThat(cache.getBase(1).getVersion()).isEqualTo(0);
-    }
-
-    @Test
     public void whenUpdate() {
         Cache cache = new Cache();
         Base base = new Base(1, 0);
