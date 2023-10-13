@@ -6,15 +6,23 @@ public class CASCount {
     private final AtomicInteger count = new AtomicInteger();
 
     public void increment() {
-        int temp = count.get();
+        int temp;
         int rsl;
         do {
-            rsl = temp++;
-        } while (!count.compareAndSet(rsl, temp));
+            temp = count.get();
+            rsl = temp + 1;
+        } while (!count.compareAndSet(temp, rsl));
 
     }
 
     public int get() {
         return count.get();
+    }
+
+    public static void main(String[] args) {
+        CASCount casCount = new CASCount();
+        for (int i = 0; i < 10; i++) {
+            casCount.increment();
+        }
     }
 }
