@@ -21,6 +21,7 @@ public class ThreadPool {
                 }
             }));
         }
+        threads.forEach(Thread::start);
     }
 
     public void work(Runnable job) {
