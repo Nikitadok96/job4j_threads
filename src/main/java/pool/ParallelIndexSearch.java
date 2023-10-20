@@ -1,14 +1,15 @@
 package pool;
 
 import java.util.Arrays;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
 public class ParallelIndexSearch<T> extends RecursiveTask<Integer> {
 
     private final T[] array;
     private final T searchObject;
-    private int from;
-    private int to;
+    private final int from;
+    private final int to;
 
     public ParallelIndexSearch(T[] array, T searchObject, int from, int to) {
         this.array = array;
@@ -19,15 +20,8 @@ public class ParallelIndexSearch<T> extends RecursiveTask<Integer> {
 
     @Override
     protected Integer compute() {
-        int rsl = -1;
         if (to - from <= 10) {
-            for (int i = from; i < to; i++) {
-                if (array[i].equals(searchObject)) {
-                    rsl = i;
-                    break;
-                }
-            }
-            return rsl;
+            return findCycle(to, from);
         }
         int mid = (from + to) / 2;
         ParallelIndexSearch<T> leftArray =
@@ -39,5 +33,21 @@ public class ParallelIndexSearch<T> extends RecursiveTask<Integer> {
         int left = leftArray.join();
         int right = rightArray.join();
         return Math.max(left, right);
+    }
+
+    private int findCycle(int to, int from) {
+        int rsl = -1;
+        for (int i = from; i < to; i++) {
+            if (array[i].equals(searchObject)) {
+                rsl = i;
+                break;
+            }
+        }
+        return rsl;
+    }
+
+    public static int findIndexInteger(Integer[] array, Integer object) {
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        return forkJoinPool.invoke(new ParallelIndexSearch<>(array, object, 0, array.length));
     }
 }
