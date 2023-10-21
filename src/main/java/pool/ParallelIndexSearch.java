@@ -21,7 +21,7 @@ public class ParallelIndexSearch<T> extends RecursiveTask<Integer> {
     @Override
     protected Integer compute() {
         if (to - from <= 10) {
-            return findCycle(to, from);
+            return findCycle();
         }
         int mid = (from + to) / 2;
         ParallelIndexSearch<T> leftArray =
@@ -35,9 +35,9 @@ public class ParallelIndexSearch<T> extends RecursiveTask<Integer> {
         return Math.max(left, right);
     }
 
-    private int findCycle(int to, int from) {
+    private int findCycle() {
         int rsl = -1;
-        for (int i = from; i < to; i++) {
+        for (int i = this.from; i < this.to; i++) {
             if (array[i].equals(searchObject)) {
                 rsl = i;
                 break;
