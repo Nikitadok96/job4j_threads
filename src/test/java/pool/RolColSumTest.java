@@ -63,6 +63,6 @@ class RolColSumTest {
                 new Sums(20, 15),
                 new Sums(25, 15),
         };
-        assertThat(expected).isEqualTo(rsl);
+        assertThat(rsl).isEqualTo(expected);
     }
 }
