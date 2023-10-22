@@ -20,7 +20,7 @@ class RolColSumTest {
                 {4, 4, 4, 4, 4},
                 {5, 5, 5, 5, 5}
         };
-        RolColSum.Sums[] array = RolColSum.sum(matrix);
+        Sums[] array = RolColSum.sum(matrix);
         int[] expectedRow = new int[5];
         for (int i = 0; i < expectedRow.length; i++) {
             expectedRow[i] = array[i].getRowSum();
@@ -37,7 +37,7 @@ class RolColSumTest {
                 {4, 4, 4, 4, 4},
                 {5, 5, 5, 5, 5}
         };
-        RolColSum.Sums[] array = RolColSum.sum(matrix);
+        Sums[] array = RolColSum.sum(matrix);
         int[] expectedColumn = new int[5];
         for (int i = 0; i < expectedColumn.length; i++) {
             expectedColumn[i] = array[i].getColSum();
@@ -45,25 +45,9 @@ class RolColSumTest {
         assertThat(expectedColumn).containsSequence(15, 15, 15, 15, 15);
     }
 
-    @Test
-    public void whenAsyncTestRow() throws ExecutionException, InterruptedException {
-        int[][] matrix = new int[][] {
-                {1, 1, 1, 1, 1},
-                {2, 2, 2, 2, 2},
-                {3, 3, 3, 3, 3},
-                {4, 4, 4, 4, 4},
-                {5, 5, 5, 5, 5}
-        };
-        RolColSum.Sums[] array = RolColSum.asyncSum(matrix);
-        int[] expectedRow = new int[5];
-        for (int i = 0; i < expectedRow.length; i++) {
-            expectedRow[i] = array[i].getRowSum();
-        }
-        assertThat(expectedRow).containsSequence(5, 10, 15, 20, 25);
-    }
 
     @Test
-    public void whenAsyncTestColumn() throws ExecutionException, InterruptedException {
+    public void whenAsyncTest() {
         int[][] matrix = new int[][] {
                 {1, 1, 1, 1, 1},
                 {2, 2, 2, 2, 2},
@@ -71,11 +55,14 @@ class RolColSumTest {
                 {4, 4, 4, 4, 4},
                 {5, 5, 5, 5, 5}
         };
-        RolColSum.Sums[] array = RolColSum.asyncSum(matrix);
-        int[] expectedColumn = new int[5];
-        for (int i = 0; i < expectedColumn.length; i++) {
-            expectedColumn[i] = array[i].getColSum();
-        }
-        assertThat(expectedColumn).containsSequence(15, 15, 15, 15, 15);
+        Sums[] rsl = RolColSum.asyncSum(matrix);
+        Sums[] expected = new Sums[] {
+                new Sums(5, 15),
+                new Sums(10, 15),
+                new Sums(15, 15),
+                new Sums(20, 15),
+                new Sums(25, 15),
+        };
+        assertThat(expected).isEqualTo(rsl);
     }
 }
